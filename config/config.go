@@ -9,7 +9,6 @@ import (
 	"os"
 	"path"
 	"strings"
-	"sync"
 )
 
 type Config struct {
@@ -37,8 +36,7 @@ type aria2 struct {
 	LogFile     string `json:"log_file"`
 }
 
-var AppConfig Config
-var once sync.Once
+var appConfig Config
 
 var defaults = Config{
 	Dsn: "/etc/yadownloader/downloader.db",
@@ -56,45 +54,42 @@ var defaults = Config{
 }
 
 func GetConfig() Config {
-	once.Do(func() {
-		initConfig()
-	})
-	return AppConfig
+	return appConfig
 }
 
 func Aria2Config() aria2 {
 	return GetConfig().Aria2
 }
 
-func initConfig() {
+func InitConfig() {
 	var err error
-	AppConfig, err = parseConfig("/etc/yadownloader/config.json")
+	appConfig, err = parseConfig("/etc/yadownloader/config.json")
 	if err != nil {
 		log.Printf("%s\nUse default config!", err)
-		AppConfig = defaults
+		appConfig = defaults
 	}
-	dir := path.Dir(AppConfig.Aria2.SessionFile)
+	dir := path.Dir(appConfig.Aria2.SessionFile)
 	if !FileExists(dir) {
 		err = os.MkdirAll(dir, 0755)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
-	if !FileExists(AppConfig.Aria2.SessionFile) {
+	if !FileExists(appConfig.Aria2.SessionFile) {
 		log.Println("aria2 session file not exists, create it")
-		if _, err = os.Create(AppConfig.Aria2.SessionFile); err != nil {
+		if _, err = os.Create(appConfig.Aria2.SessionFile); err != nil {
 			log.Fatal(err)
 		}
 	}
-	if !FileExists(AppConfig.Aria2.DownloadDir) {
-		log.Println(AppConfig.Aria2.DownloadDir, " not exists, create it")
-		if err = os.MkdirAll(AppConfig.Aria2.DownloadDir, 0755); err != nil {
+	if !FileExists(appConfig.Aria2.DownloadDir) {
+		log.Println(appConfig.Aria2.DownloadDir, " not exists, create it")
+		if err = os.MkdirAll(appConfig.Aria2.DownloadDir, 0755); err != nil {
 			log.Fatal(err)
 		}
 	}
-	if !FileExists(AppConfig.Aria2.TorrentDir) {
-		log.Println(AppConfig.Aria2.TorrentDir, " not exists, create it")
-		if err = os.MkdirAll(AppConfig.Aria2.TorrentDir, 0755); err != nil {
+	if !FileExists(appConfig.Aria2.TorrentDir) {
+		log.Println(appConfig.Aria2.TorrentDir, " not exists, create it")
+		if err = os.MkdirAll(appConfig.Aria2.TorrentDir, 0755); err != nil {
 			log.Fatal(err)
 		}
 	}

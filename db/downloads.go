@@ -8,7 +8,7 @@ type Downloads struct {
 	Failed   int `json:"failed"`
 	Complete int `json:"complete"`
 	Total    int `json:"total,omitempty"`
-	YTD      int `json:"ytd,omitempty"`
+	YTD      int `json:"ytd"`
 }
 type DownloadStatus int
 

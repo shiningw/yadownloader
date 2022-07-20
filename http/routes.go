@@ -7,8 +7,8 @@ import (
 	s "github.com/filebrowser/filebrowser/v2/settings"
 	"github.com/gorilla/mux"
 	"github.com/shiningw/yadownloader/aria2"
-	"github.com/shiningw/yadownloader/config"
 
+	"github.com/shiningw/yadownloader/config"
 	"github.com/shiningw/yadownloader/frontend"
 	"github.com/shiningw/yadownloader/ytd"
 )
@@ -20,8 +20,9 @@ type Data struct {
 
 func RegisterRoutes(r *mux.Router, data *Data) {
 	//log.Println(data.Server.Root, data.Settings.UserHomeBasePath)
-	c := config.GetConfig()
-	c.Server.RootDir = data.Server.Root
+	//c := config.GetConfig()
+	//c.Server.RootDir = data.Server.Root
+	config.InitConfig()
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			auth := authentication{data.Settings.Key, r}
