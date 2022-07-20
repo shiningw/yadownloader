@@ -1,0 +1,75 @@
+@import "variables";
+@import "icons";
+@import "base";
+@import "spinner";
+@import "buttons";;
+//@import "navigation";
+@import "table.scss";
+//@import "mixins.scss";
+ul {
+    list-style: none;
+}
+
+.hide-text {
+    color: transparent !important;
+}
+
+a {
+    border: 0;
+    color: var(--color-main-text);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+div .number {
+    background: none repeat scroll 0 0 #5f5853;
+    border-radius: 999px;
+    color: #fff;
+    display: inline-block;
+    font-size: 15px;
+    font-style: italic;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 10px;
+    padding: 0 8px;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+#app-content {
+    z-index: 1000;
+    background-color: var(--color-main-background);
+    position: relative;
+    flex-basis: 100vw;
+    min-height: 100%;
+    margin-left: 300px;
+}
+select,
+button,
+.button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    padding: 6px 16px;
+    width: auto;
+    min-height: 34px;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: $color-background-dark;
+}
+.button-container button {
+    border-radius: $border-radius-pill;
+    padding: 8px 16px;
+    margin: 3px;
+}
+@media only screen and (max-width: 1024px) {
+    #app-navigation:not(.hidden) + #app-content {
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,43 @@
+[class^="icon-"],
+[class*=" icon-"] {
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 16px;
+    min-height: 16px;
+}
+.icon-power {
+    background-image: url($icon-power);
+}
+
+.icon-purge {
+    background-image: url($icon-purge);
+}
+
+.icon-unpause {
+    background-image: url($icon-unpause);
+}
+.icon-pause {
+    background-image: url($icon-pause);
+}
+
+.icon-refresh {
+    background-image: url($icon-refresh);
+}
+
+.icon-delete {
+    background-image: url($icon-delete);
+}
+
+.icon-download {
+    background-image: url($icon-download);
+}
+
+.icon-add {
+    background-image: url($icon-add);
+}
+.icon-clipboard {
+    background-image: url($icon-clipboard);
+}
+.icon-menu{
+    background-image: url($icon-menu);
+}

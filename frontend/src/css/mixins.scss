@@ -1,0 +1,12 @@
+@mixin loading-spinner(){
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid var(--color-light-grey);
+  border-radius:var(--border-radius-rounded);
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  position: relative;
+  width: 1em;
+}

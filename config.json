@@ -1,0 +1,12 @@
+{
+    "dsn": "/etc/yadownloader/downloader.db",
+    "aria2": {
+        "download_dir": "/etc/yadownloader/dl/downloads",
+        "torrent_dir": "/etc/yadownloader/dl/torrents",
+        "token": "yadownloader123",
+        "port": "6800",
+        "input_file": "/etc/yadownloader/aria2/aria2.session",
+        "session_file": "/etc/yadownloader/aria2/aria2.session",
+        "log_file": "/etc/yadownloader/aria2/aria2.log"
+    }
+}

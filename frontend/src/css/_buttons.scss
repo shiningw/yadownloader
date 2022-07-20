@@ -1,0 +1,45 @@
+//@import "../../node_modules/bootstrap/scss/functions";
+//@import "../../node_modules/bootstrap/scss/variables";
+//@import "../../node_modules/bootstrap/scss/mixins";
+//@import "../../node_modules/bootstrap/scss/utilities";
+//@import "../../node_modules/bootstrap/scss/buttons";
+//@import "../../node_modules/bulma/sass/utilities/_all.sass";
+//@import "../../node_modules/bulma/sass/elements/button.sass";
+
+.navigation-btn {
+    display: block;
+    padding: 10px;
+
+    button {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        padding-left: 34px;
+        background-position: 10px center;
+        text-align: left;
+        margin: 0;
+    }
+}
+button,
+.button {
+    position: relative;
+}
+.button.is-loading::after {
+    animation: spinAround 500ms infinite linear;
+    border: 2px solid hsl(0, 3.6%, 11%);
+    border-radius: $border-radius-rounded;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 1em;
+    width: 1em;
+    left: calc(50% - (1em * 0.5));
+    top: calc(50% - (1em * 0.5));
+    position: absolute !important;
+}
+
+.button.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+}
