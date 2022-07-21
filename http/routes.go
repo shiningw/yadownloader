@@ -19,8 +19,6 @@ type FBConfig struct {
 
 func RegisterRoutes(r *mux.Router, data FBConfig) {
 	//log.Println(data.Server.Root, data.Settings.UserHomeBasePath)
-	//c := config.GetConfig()
-	//c.Server.RootDir = data.Server.Root
 	config.InitConfig()
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
