@@ -61,7 +61,7 @@ func Aria2Config() aria2 {
 	return GetConfig().Aria2
 }
 
-func InitConfig() {
+func init() {
 	var err error
 	appConfig, err = parseConfig("/etc/yadownloader/config.json")
 	if err != nil {

@@ -6,8 +6,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/shiningw/yadownloader/aria2"
-
-	"github.com/shiningw/yadownloader/config"
 	"github.com/shiningw/yadownloader/frontend"
 	"github.com/shiningw/yadownloader/ytd"
 )
@@ -19,7 +17,6 @@ type FBConfig struct {
 
 func RegisterRoutes(r *mux.Router, data FBConfig) {
 	//log.Println(data.Server.Root, data.Settings.UserHomeBasePath)
-	config.InitConfig()
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			auth := authentication{data.Key, r}

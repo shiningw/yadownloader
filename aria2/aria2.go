@@ -34,15 +34,16 @@ func GetAria2Settings() (Aria2Settings, error) {
 
 	var e error
 	var version *VersionInfo
-
-	aria2Settings := Aria2Settings{Status: false, Version: &VersionInfo{}}
+	var aria2Settings Aria2Settings
 	aria2Settings.DownloadDir = config.Aria2Config().DownloadDir
 	aria2Settings.TorrentDir = config.Aria2Config().TorrentDir
 	aria2Settings.Port = config.Aria2Config().Port
 	aria2Settings.Token = config.Aria2Config().Token
+
 	if e = client.IsRunning(); e != nil {
 		aria2Settings.Status = false
 		aria2Settings.Error = e.Error()
+		return aria2Settings, e
 	} else {
 		aria2Settings.Status = true
 	}

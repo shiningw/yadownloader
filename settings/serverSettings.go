@@ -31,7 +31,11 @@ type Data struct {
 
 func SettingsResp() ServerSettings {
 	var serverSettings ServerSettings
-	serverSettings.Counters = db.GetDownloadCount(aria2.GetClient())
+	//stop if aria2 is not running or responding
 	serverSettings.Aria2, serverSettings.Error = aria2.GetAria2Settings()
+	if serverSettings.Error != nil {
+		return serverSettings
+	}
+	serverSettings.Counters = db.GetDownloadCount(aria2.GetClient())
 	return serverSettings
 }
