@@ -1,5 +1,5 @@
 # yadownloader
-this package gives Filebrowser the capability to download files using Youtube-dl and Aria2 within Filebrowser
+this package gives Filebrowser the capability to download files using Youtube-dl and Aria2
 
 To test it, clone my fork of filebrowser https://github.com/shiningw/filebrowser and run it the same way as you do with the official version
 
