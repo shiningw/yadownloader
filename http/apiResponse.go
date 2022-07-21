@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/shiningw/aria2go/client"
+	"github.com/shiningw/yadownloader/aria2"
 	"github.com/shiningw/yadownloader/helper"
 )
 
@@ -15,12 +15,12 @@ type Actions struct {
 	Path  string `json:"path,omitempty"`
 }
 type TableResp struct {
-	Results  []*client.StatusInfo `json:"-"`
-	RespType string               `json:"-"`
-	Rows     []*Tablerow          `json:"row"`
-	Title    Tableheading         `json:"title"`
-	Error    error                `json:"error"`
-	Status   bool                 `json:"status"`
+	Results  []*aria2.StatusInfo `json:"-"`
+	RespType string              `json:"-"`
+	Rows     []*Tablerow         `json:"row"`
+	Title    Tableheading        `json:"title"`
+	Error    error               `json:"error"`
+	Status   bool                `json:"status"`
 }
 
 type Tablerow struct {
@@ -40,7 +40,7 @@ var tableHeading = Tableheading{
 	"Actions",
 }
 
-func NewTableResp(respType string, results []*client.StatusInfo) *TableResp {
+func NewTableResp(respType string, results []*aria2.StatusInfo) *TableResp {
 	table := &TableResp{}
 	if results == nil {
 		table.Error = fmt.Errorf("no results")

@@ -31,7 +31,7 @@ type Data struct {
 
 func SettingsResp() ServerSettings {
 	var serverSettings ServerSettings
-	serverSettings.Counters = db.GetDownloadCount(aria2.Client)
+	serverSettings.Counters = db.GetDownloadCount(aria2.GetClient())
 	serverSettings.Aria2, serverSettings.Error = aria2.GetAria2Settings()
 	return serverSettings
 }

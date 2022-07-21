@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/shiningw/aria2go/aria2"
+	"github.com/shiningw/yadownloader/aria2"
 	"github.com/shiningw/yadownloader/config"
 )
 

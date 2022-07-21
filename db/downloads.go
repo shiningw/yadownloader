@@ -1,6 +1,6 @@
 package db
 
-import "github.com/shiningw/aria2go/aria2"
+import "github.com/shiningw/yadownloader/aria2"
 
 type Downloads struct {
 	Active   int `json:"active"`

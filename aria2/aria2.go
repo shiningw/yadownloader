@@ -2,48 +2,52 @@ package aria2
 
 import (
 	"fmt"
-	"path"
+	"sync"
 
-	"github.com/shiningw/aria2go/client"
-
-	"github.com/shiningw/aria2go/aria2"
 	"github.com/shiningw/yadownloader/config"
 )
 
-type Aria2Settings struct {
-	Version     *client.VersionInfo `json:"version"`
-	Status      bool                `json:"status"`
-	DownloadDir string              `json:"download_dir"`
-	TorrentDir  string              `json:"torrent_dir"`
-	Port        string              `json:"-"`
-	Token       string              `json:"-"`
+var (
+	client *Aria2
+)
+var once sync.Once
+
+func GetClient() *Aria2 {
+	aria2RpcUrl := fmt.Sprintf("http://localhost:%s/jsonrpc", config.Aria2Config().Port)
+	once.Do(func() {
+		client = NewAria2(aria2RpcUrl, config.Aria2Config().Token)
+	})
+	return client
 }
 
-var aria2RpcUrl = fmt.Sprintf("http://localhost:%s/jsonrpc", config.Aria2Config().Port)
-var Client = aria2.NewAria2(aria2RpcUrl, config.Aria2Config().Token)
-
-func Download(url string, dir string) (string, error) {
-	Client.SetDownloadDir(dir)
-	filename := path.Base(url)
-	Client.SetFilename(filename)
-	return Client.AddUri([]string{url})
+type Aria2Settings struct {
+	Version     *VersionInfo `json:"version"`
+	Status      bool         `json:"status"`
+	DownloadDir string       `json:"download_dir"`
+	TorrentDir  string       `json:"torrent_dir"`
+	Port        string       `json:"-"`
+	Token       string       `json:"-"`
+	Error       string       `json:"error"`
 }
 
 func GetAria2Settings() (Aria2Settings, error) {
+
 	var e error
-	var version *client.VersionInfo
-	aria2Settings := Aria2Settings{Status: false, Version: &client.VersionInfo{}}
+	var version *VersionInfo
+
+	aria2Settings := Aria2Settings{Status: false, Version: &VersionInfo{}}
 	aria2Settings.DownloadDir = config.Aria2Config().DownloadDir
 	aria2Settings.TorrentDir = config.Aria2Config().TorrentDir
 	aria2Settings.Port = config.Aria2Config().Port
 	aria2Settings.Token = config.Aria2Config().Token
-	if e = Client.IsRunning(); e != nil {
+	if e = client.IsRunning(); e != nil {
 		aria2Settings.Status = false
+		aria2Settings.Error = e.Error()
 	} else {
 		aria2Settings.Status = true
 	}
 
-	if version, e = Client.GetVersion(); e == nil {
+	if version, e = client.GetVersion(); e == nil {
 		aria2Settings.Version = version
 	}
 

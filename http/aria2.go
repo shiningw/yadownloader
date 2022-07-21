@@ -2,14 +2,13 @@ package http
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"path"
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/shiningw/aria2go/aria2"
-	"github.com/shiningw/aria2go/client"
-	"github.com/shiningw/aria2go/cmd"
+	"github.com/shiningw/yadownloader/aria2"
 	"github.com/shiningw/yadownloader/config"
 	"github.com/shiningw/yadownloader/db"
 )
@@ -34,18 +33,19 @@ func (a aria2ActionControllerler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusOK)
 	var p interface{}
 	var resp apiResponse
+	log.Println(config.Aria2Config())
 	switch action {
 	case "start":
-		opts := cmd.NewRunOptions(config.Aria2Config().Token, config.Aria2Config().Port)
+		opts := aria2.NewRunOptions(config.Aria2Config().Token, config.Aria2Config().Port)
 		opts.SetLogFile(config.Aria2Config().LogFile)
 		opts.AddOption("--log-level=info")
 		opts.SetInputFile(config.Aria2Config().InputFile)
 		opts.SetSessionFile(config.Aria2Config().SessionFile)
-		p = cmd.StartAria2(opts)
+		p = aria2.StartAria2(opts)
 	case "stop":
-		p = cmd.StopAria2(a.aria2)
+		p = aria2.StopAria2(a.aria2)
 	case "isrunning":
-		p = cmd.Aria2IsRunning(a.aria2)
+		p = aria2.Aria2IsRunning(a.aria2)
 	case "version":
 		p, _ = a.aria2.GetVersion()
 	case "download":
@@ -117,7 +117,7 @@ func (a aria2DataController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if p == nil {
 		resp = &TableResp{Status: true}
 	} else {
-		resp = NewTableResp(typ, p.([]*client.StatusInfo))
+		resp = NewTableResp(typ, p.([]*aria2.StatusInfo))
 	}
 	json.NewEncoder(w).Encode(resp)
 }

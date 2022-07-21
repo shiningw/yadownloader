@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strings"
 
-	s "github.com/filebrowser/filebrowser/v2/settings"
 	"github.com/gorilla/mux"
 	"github.com/shiningw/yadownloader/aria2"
 
@@ -13,19 +12,19 @@ import (
 	"github.com/shiningw/yadownloader/ytd"
 )
 
-type Data struct {
-	Settings *s.Settings
-	Server   *s.Server
+type FBConfig struct {
+	Key     []byte `json:"key"`
+	RootDir string `json:"rootDir"`
 }
 
-func RegisterRoutes(r *mux.Router, data *Data) {
+func RegisterRoutes(r *mux.Router, data FBConfig) {
 	//log.Println(data.Server.Root, data.Settings.UserHomeBasePath)
 	//c := config.GetConfig()
 	//c.Server.RootDir = data.Server.Root
 	config.InitConfig()
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			auth := authentication{data.Settings.Key, r}
+			auth := authentication{data.Key, r}
 
 			if r.URL.Path == "/downloader" {
 				if !auth.auth() {
@@ -43,14 +42,14 @@ func RegisterRoutes(r *mux.Router, data *Data) {
 		})
 	})
 	r.Handle("/downloader", indexController{})
-	r.Handle("/downloader/aria2/data/{type}", aria2DataController{aria2.Client})
-	r.Handle("/downloader/aria2/action/{action}", aria2ActionControllerler{aria2.Client})
-	r.Handle("/downloader/aria2/control/{action}/{gid}", aria2ActionController{aria2.Client})
+	r.Handle("/downloader/aria2/data/{type}", aria2DataController{aria2.GetClient()})
+	r.Handle("/downloader/aria2/action/{action}", aria2ActionControllerler{aria2.GetClient()})
+	r.Handle("/downloader/aria2/control/{action}/{gid}", aria2ActionController{aria2.GetClient()})
 	r.PathPrefix("/downloader/static").Handler(http.StripPrefix("/downloader/static/", assetController{frontend.Value()}))
-	r.Handle("/downloader/counters", counters{aria2: aria2.Client})
+	r.Handle("/downloader/counters", counters{aria2: aria2.GetClient()})
 	r.Handle("/downloader/ytd/action/{action}", ytdController{ytd: ytd.NewYtdCmd(ytdOptions())})
 	r.HandleFunc("/downloader/ytd/downloads", getYTDDownloads)
-	r.Handle("/downloader/aria2/upload", torrentController{aria2: aria2.Client})
+	r.Handle("/downloader/aria2/upload", torrentController{aria2: aria2.GetClient()})
 }
 func ytdOptions() ytd.YtdOptions {
 	opts := ytd.NewYtdOptions(nil)
