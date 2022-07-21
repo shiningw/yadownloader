@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"path"
 	"time"
@@ -33,7 +32,6 @@ func (a aria2ActionControllerler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusOK)
 	var p interface{}
 	var resp apiResponse
-	log.Println(config.Aria2Config())
 	switch action {
 	case "start":
 		opts := aria2.NewRunOptions(config.Aria2Config().Token, config.Aria2Config().Port)

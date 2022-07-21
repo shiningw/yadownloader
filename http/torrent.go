@@ -33,7 +33,7 @@ func (t torrentController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (t torrentController) receiveFile() {
 	var resp apiResponse
 	//set max upload file size to 3MB
-	t.r.ParseMultipartForm(2 << 30)
+	t.r.ParseMultipartForm(3 << 20)
 
 	file, fileHeader, err := getUploadFile(t.r) //r.FormFile("torrentfile")
 	if err != nil {
